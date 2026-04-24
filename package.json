@@ -1,0 +1,18 @@
+{
+  "name": "prop-flow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A multi-tenant document and invoice workflow automation backend for property operations.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @prop-flow/api",
+    "build": "npm run build -w @prop-flow/api",
+    "db:migrate": "npm run db:migrate -w @prop-flow/api",
+    "db:generate": "npm run db:generate -w @prop-flow/api",
+    "db:seed": "npm run db:seed -w @prop-flow/api",
+    "db:studio": "npm run db:studio -w @prop-flow/api"
+  }
+}

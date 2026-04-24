@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: prop-flow-postgres
+    environment:
+      POSTGRES_USER: propflow
+      POSTGRES_PASSWORD: propflow
+      POSTGRES_DB: propflow
+    ports:
+      - "5433:5432"
+    volumes:
+      - prop-flow-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  prop-flow-postgres-data:
