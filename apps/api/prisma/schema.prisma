@@ -49,3 +49,69 @@ model Membership {
   @@index([tenantId])
   @@index([userId])
 }
+
+enum DocumentStatus {
+  UPLOADED
+  PROCESSING
+  EXTRACTED
+  VALIDATION_FAILED
+  READY_FOR_REVIEW
+  FAILED
+}
+
+enum InvoiceStatus {
+  DRAFT
+  APPROVED
+  REJECTED
+  SYNCING
+  SYNCED
+  SYNC_FAILED
+}
+
+model Document {
+  id          String         @id @default(uuid())
+  tenantId    String
+  uploadedBy  String
+  filename    String
+  content     String
+  status      DocumentStatus @default(UPLOADED)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  tenant     Tenant              @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  extraction DocumentExtraction?
+  invoices   Invoice[]
+
+  @@index([tenantId, status, createdAt])
+}
+
+model DocumentExtraction {
+  id               String   @id @default(uuid())
+  documentId       String   @unique
+  extractedJson    Json
+  confidenceJson   Json
+  validationErrors Json?
+  createdAt        DateTime @default(now())
+
+  document Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  tenantId      String
+  documentId    String?
+  invoiceNumber String
+  supplierName  String
+  invoiceDate   DateTime
+  currency      String
+  grossAmount   Decimal
+  status        InvoiceStatus @default(DRAFT)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  tenant   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  document Document? @relation(fields: [documentId], references: [id], onDelete: SetNull)
+
+  @@index([tenantId, status, createdAt])
+  @@unique([tenantId, invoiceNumber, supplierName])
+}
