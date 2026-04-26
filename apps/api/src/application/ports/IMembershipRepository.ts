@@ -1,6 +1,6 @@
 import { Membership } from "../../domain/entities/membership.js";
 
-export interface MembershipRepository {
+export interface IMembershipRepository {
   findByUserAndTenant(params: {
     userId: string;
     tenantId: string;

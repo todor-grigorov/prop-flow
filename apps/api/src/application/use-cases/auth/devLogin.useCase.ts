@@ -1,6 +1,6 @@
-import { MembershipRepository } from "../../ports/membershipRepository.js";
+import { IMembershipRepository } from "../../ports/IMembershipRepository.js";
 import { TokenService } from "../../ports/tokenService.js";
-import { UserRepository } from "../../ports/userRepository.js";
+import { IUserRepository } from "../../ports/IUserRepository.js";
 import {
   NotFoundError,
   ValidationError,
@@ -8,8 +8,8 @@ import {
 
 export class DevLoginUseCase {
   constructor(
-    private readonly userRepository: UserRepository,
-    private readonly membershipRepository: MembershipRepository,
+    private readonly userRepository: IUserRepository,
+    private readonly membershipRepository: IMembershipRepository,
     private readonly tokenService: TokenService,
   ) {}
 

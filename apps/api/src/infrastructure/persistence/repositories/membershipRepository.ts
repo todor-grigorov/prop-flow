@@ -1,8 +1,8 @@
-import { MembershipRepository } from "../../../application/ports/membershipRepository.js";
+import { IMembershipRepository } from "../../../application/ports/IMembershipRepository.js";
 import { Membership } from "../../../domain/entities/membership.js";
 import { PrismaClient } from "../../../generated/prisma/client.js";
 
-export class PrismaMembershipRepository implements MembershipRepository {
+export class MembershipRepository implements IMembershipRepository {
   constructor(private readonly prisma: PrismaClient) {}
 
   async findByUserAndTenant(params: {
