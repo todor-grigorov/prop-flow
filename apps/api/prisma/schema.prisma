@@ -32,6 +32,8 @@ model Tenant {
   updatedAt DateTime @updatedAt
 
   memberships Membership[]
+  documents   Document[]
+  invoices    Invoice[]
 }
 
 model Membership {
