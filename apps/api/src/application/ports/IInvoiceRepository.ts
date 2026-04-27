@@ -1,4 +1,5 @@
 import { Invoice } from "../../domain/entities/invoice.js";
+import { InvoiceStatus } from "../../domain/enums/invoiceStatus.js";
 
 export interface IInvoiceRepository {
   createDraft(params: {
@@ -17,4 +18,10 @@ export interface IInvoiceRepository {
   }): Promise<Invoice | null>;
 
   listForTenant(params: { tenantId: string }): Promise<Invoice[]>;
+
+  updateStatus(params: {
+    tenantId: string;
+    invoiceId: string;
+    status: InvoiceStatus;
+  }): Promise<Invoice>;
 }
