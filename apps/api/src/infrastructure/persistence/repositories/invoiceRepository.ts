@@ -75,4 +75,31 @@ export class InvoiceRepository implements IInvoiceRepository {
 
     return invoices.map(toDomainInvoice);
   }
+
+  async updateStatus(params: {
+    tenantId: string;
+    invoiceId: string;
+    status: Invoice["status"];
+  }): Promise<Invoice> {
+    await this.prisma.invoice.updateMany({
+      where: {
+        id: params.invoiceId,
+        tenantId: params.tenantId,
+      },
+      data: {
+        status: params.status,
+      },
+    });
+
+    const updated = await this.findByIdForTenant({
+      tenantId: params.tenantId,
+      invoiceId: params.invoiceId,
+    });
+
+    if (!updated) {
+      throw new Error("Invoice not found after status update");
+    }
+
+    return updated;
+  }
 }
